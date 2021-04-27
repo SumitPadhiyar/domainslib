@@ -2,7 +2,7 @@ module T = Domainslib.Task
 
 exception E
 
-let _ =
+let _ = Parafuzz_lib.run (fun () ->
   let pool = T.setup_pool ~num_domains:3 in
 
   let p1 = T.async pool (fun () ->
@@ -27,4 +27,4 @@ let _ =
   | _ -> ()
   | exception T.TasksActive ->
       (* innermost task may still be active *)
-      print_endline "Caught TasksActive"
+      print_endline "Caught TasksActive")

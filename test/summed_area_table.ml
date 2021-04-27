@@ -26,7 +26,7 @@ let calc_table pool mat =
   done;
   (transpose res)
 
-let _ =
+let _ = Parafuzz_lib.run (fun () ->
   let m = Array.make_matrix size size 1 (*Array.init size (fun _ -> Array.init size (fun _ -> Random.int size))*)
   in
   let pool = T.setup_pool ~num_domains:(num_domains - 1) in
@@ -38,4 +38,4 @@ let _ =
     done;
     print_newline()
   done; *)
-  T.teardown_pool pool
+  T.teardown_pool pool)

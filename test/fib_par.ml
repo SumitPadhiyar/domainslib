@@ -14,8 +14,8 @@ let rec fib_par pool n =
     let b = T.async pool (fun _ -> fib_par pool (n-2)) in
     T.await pool a + T.await pool b
 
-let main =
+let main = Parafuzz_lib.run(fun() ->
   let pool = T.setup_pool ~num_domains:(num_domains - 1) in
   let res = fib_par pool n in
   T.teardown_pool pool;
-  Printf.printf "fib(%d) = %d\n" n res
+  Printf.printf "fib(%d) = %d\n" n res)

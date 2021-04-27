@@ -21,7 +21,7 @@ let rec sender i n =
     C.send c i;
     sender (i+1) n )
 
-let _ =
+let _ = Parafuzz_lib.run (fun () ->
   assert (num_items mod num_senders == 0);
   assert (num_items mod num_receivers == 0);
   let senders =
@@ -47,4 +47,4 @@ let _ =
   begin match C.recv_poll c with
   | None -> ()
   | Some _ -> assert false
-  end
+  end)

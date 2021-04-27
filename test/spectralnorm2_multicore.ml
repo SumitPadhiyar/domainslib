@@ -33,7 +33,7 @@ let eval_AtA_times_u pool u v =
   let w = Array.make (Array.length u) 0.0 in
   eval_A_times_u pool u w; eval_At_times_u pool w v
 
-let () =
+let () = Parafuzz_lib.run (fun () ->
   let pool = T.setup_pool ~num_domains:(num_domains - 1) in
   let u = Array.make n 1.0  and  v = Array.make n 0.0 in
   for _i = 0 to 9 do
@@ -46,4 +46,4 @@ let () =
     vv := !vv +. v.(i) *. v.(i);
     vBv := !vBv +. u.(i) *. v.(i)
   done;
-  Printf.printf "%0.9f\n" (sqrt(!vBv /. !vv))
+  Printf.printf "%0.9f\n" (sqrt(!vBv /. !vv)))

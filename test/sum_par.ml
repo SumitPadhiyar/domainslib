@@ -3,7 +3,7 @@ let n = try int_of_string Sys.argv.(2) with _ -> 40
 
 module T = Domainslib.Task
 
-let _ =
+let _ = Parafuzz_lib.run (fun () ->
   (* use parallel_for_reduce *)
   let p = T.setup_pool ~num_domains:(num_domains - 1) in
   let sum =
@@ -12,9 +12,9 @@ let _ =
   in
   T.teardown_pool p;
   Printf.printf "Sum is %d\n" sum;
-  assert (sum = n)
+  assert (sum = n))
 
-let _ =
+let _ = Parafuzz_lib.run (fun () ->
   (* explictly use empty pool and default chunk_size *)
   let p = T.setup_pool ~num_domains:0 in
   let sum = Atomic.make 0 in
@@ -23,9 +23,9 @@ let _ =
   let sum = Atomic.get sum in
   T.teardown_pool p;
   Printf.printf "Sum is %d\n" sum;
-  assert (sum = n)
+  assert (sum = n))
 
-let _ =
+let _ = Parafuzz_lib.run (fun () ->
   (* configured num_domains and default chunk_size *)
   let p = T.setup_pool ~num_domains:(num_domains - 1) in
   let sum = Atomic.make 0 in
@@ -34,5 +34,5 @@ let _ =
   let sum = Atomic.get sum in
   T.teardown_pool p;
   Printf.printf "Sum is %d\n" sum;
-  assert (sum = n)
+  assert (sum = n))
 
